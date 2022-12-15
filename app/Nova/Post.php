@@ -2,11 +2,15 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
 
+use Laravel\Nova\Fields\ID;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Trix;
+use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Post extends Resource
@@ -43,13 +47,28 @@ class Post extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
+            ID::make()->sortable(),
             
 
             Text::make('Title')->sortable(),
 
-            Trix::make('Body')
+            Trix::make('Body'),
+
+            DateTime::make('Publish At')->hideFromIndex(),
+
+            DateTime::make('Publish Until')->hideFromIndex(),
+            
+            Boolean::make('Is Published'),
+
+            Select::make('Category')->options([
+                'tutorials'=>'Tutorials',
+                'news'=>'News'
+            ]),
+
+            BelongsTo::make('User')
         ];
+
+
     }
 
     /**

@@ -7,5 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    use HasFactory;
+    public $timestamps = false;
+
+    protected $casts=[
+        'publish_at' => 'datetime',
+        'publish_until' => 'datetime'
+    ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }
